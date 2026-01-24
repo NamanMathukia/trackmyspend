@@ -7,10 +7,14 @@ import FadeIn from "../components/ui/FadeIn";
 import FloatingAddButton from "../components/FloatingAddButton";
 
 import { motion } from "framer-motion";
+import useCurrency from "../hooks/useCurrency";
 
 export default function Dashboard({ user }) {
   const [expenses, setExpenses] = useState([]);
   const [monthlyBudget, setMonthlyBudget] = useState(0);
+
+  // ✅ Currency from user preferences
+  const currency = useCurrency(user);
 
   useEffect(() => {
     if (user) {
@@ -41,11 +45,11 @@ export default function Dashboard({ user }) {
     setMonthlyBudget(data?.monthly_budget || 0);
   }
 
-  // Date helpers
-  const today = new Date().toISOString().slice(0, 10);
-  const month = new Date().toISOString().slice(0, 7);
+  // === Local date helpers ===
+  const today = new Date().toLocaleDateString("en-CA");
+  const month = today.slice(0, 7);
 
-  // Totals
+  // === Totals ===
   const todayTotal = expenses
     .filter((e) => e.date === today)
     .reduce((sum, e) => sum + e.amount, 0);
@@ -54,9 +58,11 @@ export default function Dashboard({ user }) {
     .filter((e) => e.date.startsWith(month))
     .reduce((sum, e) => sum + e.amount, 0);
 
-  // Budget calculations
+  // === Budget calculations ===
   const percentage =
-    monthlyBudget > 0 ? Math.min((monthTotal / monthlyBudget) * 100, 100) : 0;
+    monthlyBudget > 0
+      ? Math.min((monthTotal / monthlyBudget) * 100, 100)
+      : 0;
 
   let barColor = "bg-green-500";
   if (percentage > 70) barColor = "bg-yellow-400";
@@ -74,7 +80,9 @@ export default function Dashboard({ user }) {
 
             <div className="flex justify-between text-sm font-medium">
               <span>Monthly Budget</span>
-              <span>₹ {monthTotal} / ₹ {monthlyBudget}</span>
+              <span>
+                {currency} {monthTotal} / {currency} {monthlyBudget}
+              </span>
             </div>
 
             <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
@@ -86,12 +94,11 @@ export default function Dashboard({ user }) {
               />
             </div>
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-600">
               {percentage < 100
-              ? `${percentage.toFixed(0)}% spent`
-              : "Time to survive on water 💧"}
+                ? `${percentage.toFixed(0)}% spent`
+                : "Time to survive on water 💧"}
             </p>
-
 
           </div>
         </Card>
@@ -102,14 +109,18 @@ export default function Dashboard({ user }) {
         <FadeIn>
           <Card>
             <p className="text-slate-500 text-sm">Today</p>
-            <p className="text-xl font-bold">₹ {todayTotal}</p>
+            <p className="text-xl font-bold">
+              {currency} {todayTotal}
+            </p>
           </Card>
         </FadeIn>
 
         <FadeIn delay={0.1}>
           <Card>
             <p className="text-slate-500 text-sm">This Month</p>
-            <p className="text-xl font-bold">₹ {monthTotal}</p>
+            <p className="text-xl font-bold">
+              {currency} {monthTotal}
+            </p>
           </Card>
         </FadeIn>
       </div>
@@ -128,12 +139,16 @@ export default function Dashboard({ user }) {
                 <p className="font-medium">{e.category}</p>
                 <p className="text-slate-500 text-xs">{e.date}</p>
               </div>
-              <p className="font-semibold">₹ {e.amount}</p>
+              <p className="font-semibold">
+                {currency} {e.amount}
+              </p>
             </div>
           ))}
 
           {expenses.length === 0 && (
-            <p className="text-slate-400 text-sm">No expenses yet</p>
+            <p className="text-slate-400 text-sm">
+              No expenses yet
+            </p>
           )}
         </Card>
       </FadeIn>
