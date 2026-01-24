@@ -43,9 +43,11 @@ export default function Categories({ user }) {
   }
 
   async function saveEdit(id) {
+    if (!editingValue.trim()) return;
+
     await supabase
       .from("categories")
-      .update({ name: editingValue })
+      .update({ name: editingValue.trim() })
       .eq("id", id);
 
     setEditingId(null);
@@ -54,84 +56,96 @@ export default function Categories({ user }) {
   }
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 space-y-6">
-      <SectionTitle>Manage Categories</SectionTitle>
+    <div className="max-w-2xl mx-auto px-4 pt-6 pb-20 space-y-6">
 
-      {/* Add Category */}
+      <SectionTitle>Categories</SectionTitle>
+
+      {/* ==== Add Category Bar ==== */}
       <FadeIn>
-        <Card className="flex gap-3">
-          <input
-            className="flex-1 border border-slate-300 rounded-lg px-3 py-2
-                       focus:ring-2 focus:ring-teal-500 outline-none"
-            placeholder="New category name"
-            value={newCat}
-            onChange={(e) => setNewCat(e.target.value)}
-          />
-          <button
-            onClick={addCategory}
-            className="bg-teal-500 text-white px-4 rounded-lg font-semibold
-                       hover:bg-teal-600 transition"
-          >
-            Add
-          </button>
+        <Card>
+          <div className="flex items-center gap-3">
+            <input
+              className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm
+                         focus:ring-2 focus:ring-teal-500 outline-none"
+              placeholder="Add new category"
+              value={newCat}
+              onChange={(e) => setNewCat(e.target.value)}
+            />
+            <button
+              onClick={addCategory}
+              className="primary py-2 px-4"
+            >
+              Add
+            </button>
+          </div>
         </Card>
       </FadeIn>
 
-      {/* Category List */}
+      {/* ==== Categories List ==== */}
       <FadeIn delay={0.1}>
-        <Card className="divide-y">
-          {categories.map((cat) => (
-            <div
-              key={cat.id}
-              className="flex items-center justify-between py-3 text-sm"
-            >
-              {editingId === cat.id ? (
-                <input
-                  className="border border-slate-300 rounded px-2 py-1"
-                  value={editingValue}
-                  onChange={(e) => setEditingValue(e.target.value)}
-                />
-              ) : (
-                <span className="font-medium">{cat.name}</span>
-              )}
+        <Card>
+          <div className="space-y-3">
 
-              <div className="flex gap-3">
+            {categories.map((cat) => (
+              <div
+                key={cat.id}
+                className="flex items-center justify-between bg-slate-50 rounded-lg px-3 py-2"
+              >
+                {/* Left side */}
                 {editingId === cat.id ? (
-                  <button
-                    onClick={() => saveEdit(cat.id)}
-                    className="text-green-600 text-xs font-semibold hover:underline"
-                  >
-                    Save
-                  </button>
+                  <input
+                    className="border border-slate-300 rounded px-2 py-1 text-sm w-32
+                               focus:ring-1 focus:ring-teal-500 outline-none"
+                    value={editingValue}
+                    onChange={(e) => setEditingValue(e.target.value)}
+                  />
                 ) : (
-                  <button
-                    onClick={() => {
-                      setEditingId(cat.id);
-                      setEditingValue(cat.name);
-                    }}
-                    className="text-blue-600 text-xs font-semibold hover:underline"
-                  >
-                    Edit
-                  </button>
+                  <span className="font-medium text-sm">{cat.name}</span>
                 )}
 
-                <button
-                  onClick={() => deleteCategory(cat.id)}
-                  className="text-red-600 text-xs font-semibold hover:underline"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
+                {/* Right side actions */}
+                <div className="flex gap-3 text-xs font-semibold">
 
-          {categories.length === 0 && (
-            <p className="py-4 text-slate-500 text-sm text-center">
-              No categories yet. Add one above.
-            </p>
-          )}
+                  {editingId === cat.id ? (
+                    <button
+                      onClick={() => saveEdit(cat.id)}
+                      className="text-green-600 hover:underline"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setEditingId(cat.id);
+                        setEditingValue(cat.name);
+                      }}
+                      className="text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => deleteCategory(cat.id)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+              </div>
+            ))}
+
+            {categories.length === 0 && (
+              <p className="text-slate-500 text-sm text-center py-4">
+                No categories yet. Add one above.
+              </p>
+            )}
+
+          </div>
         </Card>
       </FadeIn>
+
     </div>
   );
 }

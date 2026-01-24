@@ -1,16 +1,115 @@
-# React + Vite
+# NotemySpend 💰
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NotemySpend is a modern full-stack personal expense tracker built with React and Supabase.  
+It helps you track expenses, manage categories, set budgets, visualize reports, and personalize your experience with currency and dark mode.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- Supabase Authentication
+- Add, Edit, Delete Expenses
+- Category Management
+- Monthly Budget Tracking
+- Interactive Reports (Pie & Line Charts)
+- Persistent Currency Preference
+- Persistent Dark Mode
+- Responsive Sidebar Navigation
+- Smooth UI Animations
+- Secure User-Specific Data (RLS)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Frontend: React + Vite  
+Styling: Tailwind CSS  
+Backend: Supabase (PostgreSQL + Auth)  
+Charts: Recharts  
+Animations: Framer Motion  
+
+---
+
+## 📦 Installation
+
+Clone repository:
+
+git clone https://github.com/your-username/notemyspend.git  
+cd notemyspend  
+
+Install dependencies:
+
+npm install  
+
+Create a `.env` file in project root:
+
+VITE_SUPABASE_URL=your_supabase_project_url  
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key  
+
+Run development server:
+
+npm run dev  
+
+Build for production:
+
+npm run build  
+
+---
+
+## 🗄 Supabase Database Tables
+
+expenses  
+- id (uuid, primary key)  
+- user_id (uuid)  
+- amount (numeric)  
+- category (text)  
+- date (date)
+
+categories  
+- id (uuid, primary key)  
+- user_id (uuid)  
+- name (text)
+
+budgets  
+- id (uuid, primary key)  
+- user_id (uuid)  
+- monthly_budget (numeric)
+
+user_preferences  
+- id (uuid, primary key)  
+- user_id (uuid)  
+- currency (text)  
+- dark_mode (boolean)
+
+---
+
+## 🔐 Security
+
+- Row Level Security enabled  
+- Users can access only their own data  
+- Supabase Auth handles session management  
+
+---
+
+## 📊 Reports
+
+- Category-wise expense breakdown (Pie Chart)  
+- Daily spending timeline (Line Chart)
+
+---
+
+## ⚙️ Preferences
+
+- Change default currency  
+- Toggle dark mode  
+- Preferences stored in Supabase  
+
+---
+
+## 👤 Author
+
+Naman Mathukia
+
+---
+
+NotemySpend — Track smart. Spend smarter.

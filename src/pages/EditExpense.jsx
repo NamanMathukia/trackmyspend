@@ -106,8 +106,7 @@ export default function EditExpense({ user }) {
 
             {/* Submit */}
             <button
-              className="w-full bg-teal-500 text-white py-2 rounded-lg
-                         font-semibold hover:bg-teal-600 transition"
+              className="btn primary"
             >
               Update Expense
             </button>

@@ -12,7 +12,7 @@ export default function AddExpense({ user }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState(
-    new Date().toISOString().slice(0, 10)
+    new Date().toLocaleDateString("en-CA")
   );
 
   const [categories, setCategories] = useState([]);
@@ -141,9 +141,7 @@ export default function AddExpense({ user }) {
             {/* Submit */}
             <button
               disabled={loading}
-              className="w-full bg-teal-500 text-white py-2 rounded-lg
-                         font-semibold hover:bg-teal-600 transition
-                         disabled:opacity-60"
+              className="btn primary"
             >
               {loading ? "Saving..." : "Save Expense"}
             </button>

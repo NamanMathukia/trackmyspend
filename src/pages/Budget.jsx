@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../components/ui/Card";
 import SectionTitle from "../components/ui/SectionTitle";
@@ -10,8 +11,9 @@ export default function Budget({ user }) {
   const [budget, setBudget] = useState("");
   const [savedBudgetId, setSavedBudgetId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
-  // ✅ Currency hook at top
+  const navigate = useNavigate();
   const currency = useCurrency(user);
 
   useEffect(() => {
@@ -54,10 +56,19 @@ export default function Budget({ user }) {
     }
 
     setLoading(false);
+
+    // === Show success toast ===
+    setShowToast(true);
+
+    // === Redirect to Dashboard after short delay ===
+    setTimeout(() => {
+      navigate("/");
+    }, 1200);
   }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-8 space-y-6">
+
       <SectionTitle>Budget</SectionTitle>
 
       {/* === Current Budget Card === */}
@@ -97,6 +108,15 @@ export default function Budget({ user }) {
           </button>
         </Card>
       </FadeIn>
+
+      {/* === Success Toast === */}
+      {showToast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 
+                        bg-slate-900 text-white text-sm px-4 py-2 
+                        rounded-full shadow-lg">
+          Budget saved successfully ✅
+        </div>
+      )}
     </div>
   );
 }

@@ -2,18 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Global Background Canvas ===== */
 body {
-  @apply bg-slate-100 text-slate-800;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 20% 10%, #99f6e4 0, transparent 40%),
+    radial-gradient(circle at 80% 20%, #bae6fd 0, transparent 35%),
+    radial-gradient(circle at 50% 90%, #f0abfc 0, transparent 40%),
+    #f8fafc;
+  min-height: 100vh;
+  antialiased: true;
 }
+
+/* ===== Glass Card ===== */
+.card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* ===== Inputs ===== */
+input, select {
+  @apply w-full rounded-xl border border-slate-300 px-3 py-2 text-sm
+         focus:ring-2 focus:ring-teal-400 outline-none transition;
+  background: rgba(255,255,255,0.8);
+}
+
+/* ===== Primary Buttons ===== */
+button {
+  @apply rounded-xl font-semibold transition active:scale-95;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  color: white;
+}
+
+button.primary:hover {
+  filter: brightness(1.05);
+}
+
+/* ===== Floating Action Button ===== */
+.fab {
+  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  color: white;
+  box-shadow: 0 8px 20px rgba(20,184,166,0.5);
+}
+
+/* ===== Titles ===== */
+h1, h2 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ===== Gradient Text ===== */
+.gradient-text {
+  background: linear-gradient(90deg, #14b8a6, #0ea5e9, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== Smooth Fade In ===== */
 .fade-in {
-  animation: fadeIn 0.4s ease-out;
+  animation: fadeIn 0.6s ease-out both;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
-.input {
-  @apply w-full border border-slate-300 rounded-lg px-3 py-2
-  focus:ring-2 focus:ring-teal-500 outline-none;
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+/* === Button Base === */
+.btn {
+  @apply w-full py-3 px-4 text-sm font-semibold rounded-xl;
+}
+
+/* === Primary Button Skin === */
+.primary {
+  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  color: white;
+  box-shadow: 0 6px 18px rgba(20,184,166,0.45);
+}
+
+.primary:hover {
+  filter: brightness(1.05);
+}
+.btn-inline {
+  @apply py-2 px-3 text-sm rounded-lg;
 }
