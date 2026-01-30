@@ -218,3 +218,11 @@ h2 {
 .dark .card .border-b {
   border-color: rgba(148, 163, 184, 0.25) !important;
 }
+/* ===== Dark mode toggle visibility fix ===== */
+.dark .settings-toggle span {
+  background-color: #e5e7eb;
+}
+
+.dark .settings-toggle {
+  background-color: #334155;
+}

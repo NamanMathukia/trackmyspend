@@ -129,13 +129,21 @@ export default function Settings({ user }) {
               onClick={() =>
                 savePreferences({ dark_mode: !darkMode })
               }
-              className="relative w-12 h-7 rounded-full transition
-                         bg-slate-300 dark:bg-slate-700"
+              className={`
+                relative w-12 h-7 rounded-full transition
+                border
+                ${darkMode
+                  ? "bg-slate-800 border-slate-600"
+                  : "bg-slate-300 border-slate-400"}
+              `}
             >
               <span
-                className={`absolute top-1 left-1 w-5 h-5 rounded-full
-                bg-white transition-transform
-                ${darkMode ? "translate-x-5" : ""}`}
+                className={`
+                  absolute top-1 left-1 w-5 h-5 rounded-full transition-transform
+                  ${darkMode
+                    ? "bg-teal-400 translate-x-5"
+                    : "bg-white"}
+                `}
               />
             </button>
           </div>
