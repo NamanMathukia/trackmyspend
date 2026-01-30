@@ -7,11 +7,11 @@ import FadeIn from "../components/ui/FadeIn";
 
 export default function Settings({ user }) {
   const [currency, setCurrency] = useState("₹");
-  const [theme, setTheme] = useState("light");
+  const [darkMode, setDarkMode] = useState(false);
   const [prefId, setPrefId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ================= LOAD =================
+  /* ================= LOAD ================= */
   useEffect(() => {
     if (user) loadPreferences();
   }, [user]);
@@ -25,26 +25,25 @@ export default function Settings({ user }) {
 
     if (data) {
       setCurrency(data.currency || "₹");
-      setTheme(data.theme || "light");
+      setDarkMode(!!data.dark_mode);
       setPrefId(data.id);
 
       // apply theme immediately
-      document.documentElement.classList.toggle(
-        "dark",
-        data.theme === "dark"
-      );
+      document.documentElement.classList.toggle("dark", data.dark_mode);
+    } else {
+      // ensure default light mode
+      document.documentElement.classList.remove("dark");
     }
   }
 
-  // ================= SAVE =================
+  /* ================= SAVE ================= */
   async function savePreferences(updated) {
     if (!user) return;
     setLoading(true);
 
-    let payload = {
-      currency,
-      theme,
-      ...updated,
+    const payload = {
+      currency: updated.currency ?? currency,
+      dark_mode: updated.dark_mode ?? darkMode,
     };
 
     if (prefId) {
@@ -65,20 +64,20 @@ export default function Settings({ user }) {
       if (data) setPrefId(data.id);
     }
 
-    // local updates
-    if (updated.currency) setCurrency(updated.currency);
-    if (updated.theme) {
-      setTheme(updated.theme);
-      document.documentElement.classList.toggle(
-        "dark",
-        updated.theme === "dark"
-      );
+    // local state updates
+    if (updated.currency !== undefined) {
+      setCurrency(updated.currency);
+    }
+
+    if (updated.dark_mode !== undefined) {
+      setDarkMode(updated.dark_mode);
+      document.documentElement.classList.toggle("dark", updated.dark_mode);
     }
 
     setLoading(false);
   }
 
-  // ================= UI =================
+  /* ================= UI ================= */
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
       <SectionTitle>Settings</SectionTitle>
@@ -128,9 +127,7 @@ export default function Settings({ user }) {
 
             <button
               onClick={() =>
-                savePreferences({
-                  theme: theme === "light" ? "dark" : "light",
-                })
+                savePreferences({ dark_mode: !darkMode })
               }
               className="relative w-12 h-7 rounded-full transition
                          bg-slate-300 dark:bg-slate-700"
@@ -138,7 +135,7 @@ export default function Settings({ user }) {
               <span
                 className={`absolute top-1 left-1 w-5 h-5 rounded-full
                 bg-white transition-transform
-                ${theme === "dark" ? "translate-x-5" : ""}`}
+                ${darkMode ? "translate-x-5" : ""}`}
               />
             </button>
           </div>
