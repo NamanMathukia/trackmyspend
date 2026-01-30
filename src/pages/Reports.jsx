@@ -35,14 +35,38 @@ export default function Reports({ user }) {
   const currency = useCurrency(user);
 
   useEffect(() => {
-    if (user) loadExpenses();
-  }, [user]);
+  if (!user) return;
+
+  loadExpenses();
+
+  const channel = supabase
+    .channel("expenses-reports")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "expenses",
+        filter: `user_id=eq.${user.id}`,
+      },
+      () => {
+        loadExpenses(); // 🔥 recompute charts instantly
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}, [user]);
+
 
   async function loadExpenses() {
     const { data } = await supabase
       .from("expenses")
       .select()
       .eq("user_id", user.id)
+      .is("deleted_at", null) // 🔥 REQUIRED
       .order("date", { ascending: true });
 
     const expenses = data || [];

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =====================================
+   LIGHT THEME (UNCHANGED)
+===================================== */
+
 /* ===== Global Background Canvas ===== */
 body {
   font-family: "Inter", system-ui, sans-serif;
@@ -25,22 +29,26 @@ body {
 }
 
 /* ===== Inputs ===== */
-input, select {
+input,
+select {
   @apply w-full rounded-xl border border-slate-300 px-3 py-2 text-sm
          focus:ring-2 focus:ring-teal-400 outline-none transition;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
 }
 
-/* ===== Primary Buttons ===== */
+/* ===== Buttons ===== */
 button {
   @apply rounded-xl font-semibold transition active:scale-95;
 }
 
+.primary,
 button.primary {
   background: linear-gradient(135deg, #14b8a6, #06b6d4);
   color: white;
+  box-shadow: 0 6px 18px rgba(20, 184, 166, 0.45);
 }
 
+.primary:hover,
 button.primary:hover {
   filter: brightness(1.05);
 }
@@ -49,11 +57,12 @@ button.primary:hover {
 .fab {
   background: linear-gradient(135deg, #14b8a6, #06b6d4);
   color: white;
-  box-shadow: 0 8px 20px rgba(20,184,166,0.5);
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.5);
 }
 
 /* ===== Titles ===== */
-h1, h2 {
+h1,
+h2 {
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -65,7 +74,7 @@ h1, h2 {
   -webkit-text-fill-color: transparent;
 }
 
-/* ===== Smooth Fade In ===== */
+/* ===== Animations ===== */
 .fade-in {
   animation: fadeIn 0.6s ease-out both;
 }
@@ -81,25 +90,131 @@ h1, h2 {
   }
 }
 
-/* Remove tap highlight on mobile */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-/* === Button Base === */
+/* ===== Utilities ===== */
 .btn {
   @apply w-full py-3 px-4 text-sm font-semibold rounded-xl;
 }
 
-/* === Primary Button Skin === */
-.primary {
-  background: linear-gradient(135deg, #14b8a6, #06b6d4);
-  color: white;
-  box-shadow: 0 6px 18px rgba(20,184,166,0.45);
-}
-
-.primary:hover {
-  filter: brightness(1.05);
-}
 .btn-inline {
   @apply py-2 px-3 text-sm rounded-lg;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =====================================
+   DARK MODE ONLY (FINAL MERGED VERSION)
+===================================== */
+
+.dark {
+  color-scheme: dark;
+}
+
+/* ===== Background ===== */
+.dark body {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(20, 184, 166, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.08), transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.08), transparent 40%),
+    linear-gradient(180deg, #020617 0%, #031926 100%);
+  color: #e5e7eb;
+}
+
+/* ===== Cards ===== */
+.dark .card {
+  background: rgba(6, 24, 36, 0.92);
+  border: 1px solid rgba(20, 184, 166, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== Inputs ===== */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8;
+}
+
+.dark input:focus,
+.dark select:focus {
+  border-color: #2dd4bf;
+  box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.25);
+}
+
+/* ===== Buttons ===== */
+.dark .primary,
+.dark button.primary,
+.dark button.bg-teal-500,
+.dark button.bg-teal-600,
+.dark button.bg-emerald-500 {
+  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(20, 184, 166, 0.45);
+}
+
+.dark button.primary:hover {
+  filter: brightness(1.05);
+}
+
+/* ===== Floating Action Button ===== */
+.dark .fab,
+.dark button.fixed {
+  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(20, 184, 166, 0.6);
+}
+
+/* ===== Non-primary buttons ===== */
+.dark button:not(.primary):not(.fab) {
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  border-color: transparent;
+}
+
+/* ===== Text ===== */
+.dark h1,
+.dark h2 {
+  color: #f8fafc;
+}
+
+.dark .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* ===== Links / Actions ===== */
+.dark .text-blue-600 {
+  color: #60a5fa !important;
+}
+
+.dark .text-red-600 {
+  color: #f87171 !important;
+}
+
+/* ===== Background utilities ===== */
+.dark .bg-white,
+.dark .bg-slate-50,
+.dark .bg-slate-100 {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+}
+
+/* ===== Borders & dividers ===== */
+.dark .border-slate-200,
+.dark .border-slate-300,
+.dark .card hr,
+.dark .card .border-b {
+  border-color: rgba(148, 163, 184, 0.25) !important;
 }

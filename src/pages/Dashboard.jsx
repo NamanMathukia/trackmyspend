@@ -15,19 +15,41 @@ export default function Dashboard({ user }) {
 
   // ✅ Currency from user preferences
   const currency = useCurrency(user);
-
+  
   useEffect(() => {
-    if (user) {
-      fetchExpenses();
-      fetchBudget();
-    }
-  }, [user]);
+  if (!user) return;
+
+  fetchExpenses();
+  fetchBudget();
+
+  const channel = supabase
+    .channel("expenses-dashboard")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "expenses",
+        filter: `user_id=eq.${user.id}`,
+      },
+      () => {
+        fetchExpenses(); // 🔥 this updates totals + recent list
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}, [user]);
+
 
   async function fetchExpenses() {
     const { data } = await supabase
       .from("expenses")
       .select()
       .eq("user_id", user.id)
+      .is("deleted_at", null) // 🔥 REQUIRED
       .order("date", { ascending: false });
 
     setExpenses(data || []);
