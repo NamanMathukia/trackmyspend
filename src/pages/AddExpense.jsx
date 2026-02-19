@@ -20,6 +20,11 @@ export default function AddExpense({ user }) {
   const [catLoading, setCatLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const visibleCategories = showAllCategories
+  ? categories
+  : categories.slice(0, 6);
+
   // --- Load categories ---
   useEffect(() => {
     async function loadCategories() {
@@ -96,7 +101,7 @@ export default function AddExpense({ user }) {
               required
             />
 
-            {/* Quick category chips */}
+            {/* Quick category chips
             <div className="flex flex-wrap gap-2">
               {categories.slice(0, 6).map((c) => (
                 <button
@@ -115,6 +120,34 @@ export default function AddExpense({ user }) {
 
               {catLoading && (
                 <p className="text-sm text-slate-400">Loading...</p>
+              )}
+            </div> */}
+            {/* Quick category chips */}
+            <div className="flex flex-wrap gap-2">
+              {visibleCategories.map((c) => (
+                <button
+                  type="button"
+                  key={c.name}
+                  onClick={() => setCategory(c.name)}
+                  className={`px-3 py-1 rounded-full text-sm border transition ${
+                    category === c.name
+                      ? "bg-teal-500 text-white border-teal-500"
+                      : "bg-slate-50 border-slate-200 hover:bg-slate-100"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              ))}
+
+              {/* Show More / Less toggle */}
+              {categories.length > 6 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllCategories(!showAllCategories)}
+                  className="px-3 py-1 rounded-full text-sm border bg-white border-dashed border-slate-300 hover:bg-slate-50 text-slate-600"
+                >
+                  {showAllCategories ? "Show Less" : `+ ${categories.length - 6} More`}
+                </button>
               )}
             </div>
 
