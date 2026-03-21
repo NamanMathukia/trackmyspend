@@ -73,7 +73,15 @@ export default function App() {
       ) : !hasBudget ? (
       // 🚨 FORCE USER TO BUDGET PAGE
       <Routes>
-        <Route path="*" element={<Budget user={session.user} />} />
+        <Route
+          path="*"
+          element={
+            <Budget
+              user={session.user}
+              onBudgetSet={() => setHasBudget(true)}
+            />
+          }
+        />
       </Routes>
       ) : (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
