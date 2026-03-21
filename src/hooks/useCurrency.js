@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
 export default function useCurrency(user) {
-  const [currency, setCurrency] = useState("₹ko");
+  const [currency, setCurrency] = useState("₹");
 
   useEffect(() => {
     if (user) loadCurrency();

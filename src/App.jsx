@@ -18,6 +18,23 @@ import usePreferences from "./hooks/usePreferences";
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasBudget, setHasBudget] = useState(null);
+
+  useEffect(() => {
+    if (!session?.user) return;
+
+    async function checkBudget() {
+      const { data } = await supabase
+        .from("budgets")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+      setHasBudget(!!data);
+    }
+
+    checkBudget();
+  }, [session]);
 
   // --- Auth Listener ---
   useEffect(() => {
@@ -45,7 +62,7 @@ export default function App() {
     }
   }, [darkMode]);
 
-  if (loading || prefLoading) return null;
+  if (loading || prefLoading || (session && hasBudget === null)) return null;
 
   return (
     <BrowserRouter>
@@ -53,10 +70,15 @@ export default function App() {
         <Routes>
           <Route path="*" element={<Login />} />
         </Routes>
+      ) : !hasBudget ? (
+      // 🚨 FORCE USER TO BUDGET PAGE
+      <Routes>
+        <Route path="*" element={<Budget user={session.user} />} />
+      </Routes>
       ) : (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-          <TopNav user={session.user} />
+          {hasBudget && <TopNav user={session.user} />}
 
           <Routes>
             <Route path="/" element={<Dashboard user={session.user} />} />

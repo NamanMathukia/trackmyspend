@@ -20,8 +20,17 @@ export default function usePreferences(user) {
         .maybeSingle();
 
       if (data) {
-        setDarkMode(data.dark_mode);
-        setCurrency(data.currency);
+        setDarkMode(data.dark_mode ?? false);
+        setCurrency(data.currency || "₹");
+      } else {
+        await supabase.from("user_preferences").insert({
+          user_id: user.id,
+          currency: "₹",
+          dark_mode: false,
+        });
+
+        setCurrency("₹");
+        setDarkMode(false);
       }
       setLoading(false);
     }
