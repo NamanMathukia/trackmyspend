@@ -133,7 +133,7 @@ export default function Expenses({ user }) {
       <ConfirmModal
         open={!!confirmTarget}
         title="Delete expense?"
-        description="This expense will be removed. You can undo this action for a short time."
+        description="This expense will be removed. You can undo this action within 5 seconds."
         onCancel={() => setConfirmTarget(null)}
         onConfirm={() => softDeleteExpense(confirmTarget)}
       />
