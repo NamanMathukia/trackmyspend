@@ -101,7 +101,7 @@ export default function Settings({ user }) {
           <h2 className="font-semibold mb-4">Preferences</h2>
 
           {/* Currency */}
-          <div className="flex justify-between items-center text-sm mb-5">
+          {/* <div className="flex justify-between items-center text-sm mb-5">
             <label className="text-slate-600 dark:text-slate-400">
               Default Currency
             </label>
@@ -117,7 +117,7 @@ export default function Settings({ user }) {
               <option value="$">$ Dollar</option>
               <option value="€">€ Euro</option>
             </select>
-          </div>
+          </div> */}
 
           {/* Theme Toggle */}
           <div className="flex justify-between items-center text-sm">
